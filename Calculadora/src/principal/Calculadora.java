@@ -4,35 +4,42 @@ import operaciones.Operaciones;
 
 public class Calculadora{
     public static void main(String[] args) {   
+        // Variables para almacenar el resultado, la operaci贸n y los operandos
         int resultado = 0;
         String operacion = "";
-        int[] operandos = new int [2];
+        int[] operandos = new int[2];
         
+        // Crear instancias de las clases Menu y Operaciones
         Menu menu = new Menu();
         Operaciones operaciones = new Operaciones();
         
-        do{
+        // Bucle do-while para continuar la ejecuci贸n mientras el usuario lo desee
+        do {
+            // Obtener los operandos desde el men煤
             operandos = menu.pedirNumeros();
+            
+            // Obtener la operaci贸n desde el men煤
             operacion = menu.menuOpciones();
             
-            if (operacion.equalsIgnoreCase("+")){
+            // Realizar la operaci贸n correspondiente seg煤n la opci贸n elegida
+            if (operacion.equalsIgnoreCase("+")) {
                 resultado = operaciones.sumar(operandos[0], operandos[1]);
-                System.out.println ("Resultado: " + resultado);
-            } else if (operacion.equalsIgnoreCase("-")){
+                System.out.println("Resultado: " + resultado);
+            } else if (operacion.equalsIgnoreCase("-")) {
                 resultado = operaciones.restar(operandos[0], operandos[1]);
-                System.out.println ("Resultado: " + resultado);
-            } else if (operacion.equalsIgnoreCase("*")){
+                System.out.println("Resultado: " + resultado);
+            } else if (operacion.equalsIgnoreCase("*")) {
                 resultado = operaciones.multiplicar(operandos[0], operandos[1]);
-                System.out.println ("Resultado: " + resultado);
-            } else if (operacion.equalsIgnoreCase("/")){
+                System.out.println("Resultado: " + resultado);
+            } else if (operacion.equalsIgnoreCase("/")) {
                 resultado = operaciones.dividir(operandos[0], operandos[1]);
-                System.out.println ("Resultado: " + resultado);
-            } else if (operacion.equalsIgnoreCase("%")){
+                System.out.println("Resultado: " + resultado);
+            } else if (operacion.equalsIgnoreCase("%")) {
                 resultado = operaciones.resto(operandos[0], operandos[1]);
-                System.out.println ("Resultado: " + resultado);
+                System.out.println("Resultado: " + resultado);
             } else {
-                System.out.println ("Operaci髇 no v醠ida");
+                System.out.println("Operaci贸n no v谩lida");
             }
-        }   while (menu.repetir());
+        } while (menu.repetir()); // Continuar si el usuario desea repetir
     }
 }
