@@ -1,45 +1,80 @@
 package principal;
+
+
+import java.io.IOException;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import menu.Menu;
 import operaciones.Operaciones;
 
 public class Calculadora{
+	private static final Logger LOGGER = Logger.getLogger("Logger Calculadora");
+	
     public static void main(String[] args) {   
-        // Variables para almacenar el resultado, la operación y los operandos
+    	
+    	LOGGER.setLevel(Level.ALL); 
+        LOGGER.setUseParentHandlers(false);
+        
+        Handler consoleHandler = new ConsoleHandler();
+        Handler fileHandler = null;
+        
+        try {
+            fileHandler = new FileHandler("./logs/operaciones.txt" , true);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        LOGGER.addHandler(consoleHandler);
+        LOGGER.addHandler(fileHandler);
+        consoleHandler.setLevel(Level.WARNING);
+        fileHandler.setLevel(Level.ALL);
+        
         int resultado = 0;
         String operacion = "";
-        int[] operandos = new int[2];
+        int[] operandos = new int [2];
         
-        // Crear instancias de las clases Menu y Operaciones
         Menu menu = new Menu();
         Operaciones operaciones = new Operaciones();
         
-        // Bucle do-while para continuar la ejecución mientras el usuario lo desee
-        do {
-            // Obtener los operandos desde el menú
+        do{
             operandos = menu.pedirNumeros();
-            
-            // Obtener la operación desde el menú
             operacion = menu.menuOpciones();
             
-            // Realizar la operación correspondiente según la opción elegida
-            if (operacion.equalsIgnoreCase("+")) {
+            if (operacion.equalsIgnoreCase("+")){
                 resultado = operaciones.sumar(operandos[0], operandos[1]);
-                System.out.println("Resultado: " + resultado);
-            } else if (operacion.equalsIgnoreCase("-")) {
+                System.out.println ("Resultado: " + resultado);
+                LOGGER.log(Level.FINE,"Se ha hecho una suma");
+            } else if (operacion.equalsIgnoreCase("-")){
                 resultado = operaciones.restar(operandos[0], operandos[1]);
-                System.out.println("Resultado: " + resultado);
-            } else if (operacion.equalsIgnoreCase("*")) {
+                System.out.println ("Resultado: " + resultado);
+                LOGGER.log(Level.FINE,"Se ha hecho una resta");
+            } else if (operacion.equalsIgnoreCase("*")){
                 resultado = operaciones.multiplicar(operandos[0], operandos[1]);
-                System.out.println("Resultado: " + resultado);
-            } else if (operacion.equalsIgnoreCase("/")) {
-                resultado = operaciones.dividir(operandos[0], operandos[1]);
-                System.out.println("Resultado: " + resultado);
-            } else if (operacion.equalsIgnoreCase("%")) {
+                System.out.println ("Resultado: " + resultado);
+                LOGGER.log(Level.FINE,"Se ha hecho una multiplicación");
+            } else if (operacion.equalsIgnoreCase("/")){
+            	try {
+                    resultado = operaciones.dividir(operandos[0], operandos[1]);
+                    System.out.println("Resultado: " + resultado);
+                    LOGGER.log(Level.FINE, "Se ha hecho una división");
+                } catch (ArithmeticException e) {
+                    LOGGER.log(Level.WARNING, "Operación no válida, división entre cero, se devuelve cero");
+                    resultado = 0;
+                }
+            } else if (operacion.equalsIgnoreCase("%")){
                 resultado = operaciones.resto(operandos[0], operandos[1]);
-                System.out.println("Resultado: " + resultado);
+                System.out.println ("Resultado: " + resultado);
+                LOGGER.log(Level.FINE,"Se ha hecho un resto");
             } else {
-                System.out.println("Operación no válida");
+                System.out.println ("Operaci�n no v�lida");
+                LOGGER.log(Level.WARNING,"Operacion no válida");
             }
-        } while (menu.repetir()); // Continuar si el usuario desea repetir
+        }   while (menu.repetir());
     }
 }
