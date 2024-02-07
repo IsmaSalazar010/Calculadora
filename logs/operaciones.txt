@@ -26,3 +26,10 @@
   <message>Operación no válida, división entre cero, se devuelve cero</message>
 </record>
 </log>
+<HTML>
+ <BODY> 
+<P>
+Se ha hecho una suma
+</P>
+ </BODY>
+</HTML>

@@ -8,6 +8,7 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import formato.formatoHTML;
 import menu.Menu;
 import operaciones.Operaciones;
 
@@ -34,6 +35,8 @@ public class Calculadora{
         LOGGER.addHandler(fileHandler);
         consoleHandler.setLevel(Level.WARNING);
         fileHandler.setLevel(Level.ALL);
+        
+        fileHandler.setFormatter(new formatoHTML());
         
         int resultado = 0;
         String operacion = "";
